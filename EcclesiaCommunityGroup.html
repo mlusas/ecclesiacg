@@ -1,0 +1,173 @@
+<html>
+
+    <head>
+        <style>
+            .greenColor{color:#1d7b7b;}
+            .grayColor{color:#434343;}
+            .smallSize{font-size:0.875em;}
+            .xsmallSize{font-size:0.5em;}
+            
+            .container-2{
+              vertical-align: middle;
+              white-space: nowrap;
+              position: relative;
+            }
+            
+            .container-2 input#search{width:100%; height: 34px; background: #d0e1e1; border: none; font-size: 0.8em; float: left; padding: 0 1em; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; color: #2a4949; -webkit-transition: width .55s ease; -moz-transition: width .55s ease; -ms-transition: width .55s ease; -o-transition: width .55s ease; transition: width .55s ease;}
+            
+            .container-2 input#search::-webkit-input-placeholder { color: #2a4949; }
+            .container-2 input#search:-moz-placeholder { color: #2a4949; } /* Firefox 18- */
+            .container-2 input#search::-moz-placeholder { color: #2a4949; } /* Firefox 19+ */
+            .container-2 input#search:-ms-input-placeholder { color: #2a4949; }
+            
+            .select-style {
+                font-size:1em;
+                box-sizing: border-box;
+                height:34px;
+                vertical-align: middle;
+                padding: 5px 0;
+                width: 100%;
+                border-radius: 7px;
+                overflow: hidden;
+                background: #d0e1e1 url("images/downarrow.png") no-repeat 100% 50%;
+                cursor: pointer;
+                /* background: #2a4949 url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%; */
+            }
+
+            .select-style select {
+                cursor: pointer;
+                font-size:0.8em;
+                color:#2a4949;
+                padding: 5px 8px;
+                width: 130%;
+                border: none;
+                box-shadow: none;
+                background-color: transparent;
+                background-image: none;
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+            }
+
+            .select-style select:focus {
+                outline: none;
+            }
+            
+            #mapContainer{width:100%; height:300px; background-color:#000000; color:#fff;}
+            #browseBar{width:100%; background-color:#8ca9a9; height: 50px; box-sizing: border-box; padding:8px;}
+            
+            .groupRow{width:100%; background-color: #f1f8f8;}
+            .imageColumn{display:inline-block; width:18.5%; padding:0.5em 1% 0.5em 1.5%; vertical-align: top;}
+            .infoColumn{display:inline-block; width:76.5%; padding: 0.5em 1.5% 0.5em 1%; vertical-align:top;}
+            .infoTitle{width:100%; font-weight:800;}
+            .infoTime{margin:0.5em 0;}
+            .infoDistance{margin:0.5em 0;}
+            .infoDescription{margin:0.5em 0; text-align:justify;}
+            
+            .pet{height:20px; width: 20px; background-repeat: no-repeat; vertical-align: sub; margin: 0 0.5em;}
+            .cat{background: url(images/cat.png); background-size: 100%;}
+            .dog{background: url(images/dog.png); background-size: 100%;}
+            .pet.yes{display:inline-block;}
+            .pet.no{display:none;}
+            
+        </style>
+        
+    </head>
+    <body style="font-family: Verdana;">
+        <div style="width:600px;">
+            
+            <div id="mapContainer">
+                <iframe width="100%" height="100%" frameborder="0" style="border:0"
+src="https://www.google.com/maps/embed/v1/place?q=91602&key=AIzaSyBStpT46rUZIrZrO1-6CqIGrwcMUQoXOL8" allowfullscreen></iframe>
+            </div>
+            
+            <div id="browseBar">
+                <div style="display:inline-block; width:30%;">
+                    <div class="box">
+                      <div class="container-2">
+                          <input type="search" id="search" placeholder="Enter your Zip Code" />
+                      </div>
+                    </div>
+                </div>
+                <div style="display:inline-block; width:43%;"></div>
+                
+                <div style="display:inline-block; width:25%;">
+                    <div class="select-style">
+                      <select>
+                        <option value="">Group Type</option>
+                        <option value="Discusssion">Discussion</option>
+                        <option value="Social">Social</option>
+                        <option value="Topical">Topical</option>
+                        <option value="Missions">Missions</option>
+                      </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="width:100%;">
+                
+                <div class="groupRow">
+                    <div class="imageColumn">
+                        <img src="profileImages/kevin1-300x300.jpg" style="width:100%;">
+                        <div class="xsmallSize greenColor">President Skywalker</div>
+                    </div><div class="infoColumn">
+                        <div class="infoTitle">Sermon Discussion: Warring StarBlades</div>
+                        <div class="infoTime smallSize">
+                            <span class="grayColor">Meeting </span>
+                            <span class="greenColor">Twice a Month </span>
+                            <span class="grayColor">on </span>
+                            <span class="greenColor">Wednesday </span>
+                            <span class="grayColor">at </span>
+                            <span class="greenColor">7:30</span>
+                        </div>
+                        <div class="infoDistance smallSize">
+                            <div style="display:inline-block;" class="greenColor">2 </div>
+                            <div style="display:inline-block;" class="grayColor">Miles Away</div>
+                            <div class="pet cat yes"></div>
+                            <div class="pet dog yes"></div>
+                        </div>
+                        <div class="infoDescription smallSize">
+                            Lightsaber practice.  Plus we watch the entire Star Wars trilogy.  Which one you ask?  Why sir, there is only one, and it ended in the 80's.  Thankfully, we watch the original 35MM film that was shown in theaters.
+                        </div>
+                    </div>
+                </div>
+                <div class="groupRow">
+                    <div class="imageColumn">
+                        <img src="profileImages/kevin1-300x300.jpg" style="width:100%;">
+                        <div class="xsmallSize greenColor">President Skywalker</div>
+                    </div><div class="infoColumn">
+                        <div class="infoTitle">Sermon Discussion: Warring StarBlades</div>
+                        <div class="infoTime smallSize">
+                            <span class="grayColor">Meeting </span>
+                            <span class="greenColor">Twice a Month </span>
+                            <span class="grayColor">on </span>
+                            <span class="greenColor">Wednesday </span>
+                            <span class="grayColor">at </span>
+                            <span class="greenColor">7:30</span>
+                        </div>
+                        <div class="infoDistance smallSize">
+                            <div style="display:inline-block;" class="greenColor">2 </div>
+                            <div style="display:inline-block;" class="grayColor">Miles Away</div>
+                            <div class="pet cat no"></div>
+                            <div class="pet dog no"></div>
+                        </div>
+                        <div class="infoDescription smallSize">
+                            Lightsaber practice.  Plus we watch the entire Star Wars trilogy.  Which one you ask?  Why sir, there is only one, and it ended in the 80's.  Thankfully, we watch the original 35MM film that was shown in theaters.
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <script>
+            var rows = document.getElementsByClassName("groupRow");
+            for(var i=0; i<rows.length; i++) {
+                if(i % 2 == 0){
+                    rows[i].style.backgroundColor = "white";
+                }
+            }
+        </script>
+        
+    </body>
+</html>
