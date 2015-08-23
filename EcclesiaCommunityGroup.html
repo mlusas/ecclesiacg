@@ -71,6 +71,12 @@
             .pet.no{display:none;}
             
         </style>
+
+        <!--TODO: delete jquery before deploy-->
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="ga_proc.js"></script>
+
+        <script src="https://apis.google.com/js/client.js?onload=gapi_init"></script>
         
     </head>
     <body style="font-family: Verdana;">
@@ -78,7 +84,7 @@
             
             <div id="mapContainer">
                 <iframe width="100%" height="100%" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?q=91602&key=AIzaSyBStpT46rUZIrZrO1-6CqIGrwcMUQoXOL8" allowfullscreen></iframe>
+src="https://www.google.com/maps/embed/v1/place?q=91602&key=AIzaSyDweDwtnTJqUu6bK2H0Tsu3U08yP7vJuUo" allowfullscreen></iframe>
             </div>
             
             <div id="browseBar">
@@ -93,12 +99,12 @@ src="https://www.google.com/maps/embed/v1/place?q=91602&key=AIzaSyBStpT46rUZIrZr
                 
                 <div style="display:inline-block; width:25%;">
                     <div class="select-style">
-                      <select>
+                      <select class="grouptypes">
                         <option value="">Group Type</option>
-                        <option value="Discusssion">Discussion</option>
+                        <!--<option value="Discusssion">Discussion</option>
                         <option value="Social">Social</option>
                         <option value="Topical">Topical</option>
-                        <option value="Missions">Missions</option>
+                        <option value="Missions">Missions</option>-->
                       </select>
                     </div>
                 </div>
@@ -106,32 +112,42 @@ src="https://www.google.com/maps/embed/v1/place?q=91602&key=AIzaSyBStpT46rUZIrZr
             
             <div style="width:100%;">
                 
-                <div class="groupRow">
+                <div class="groupRow" style="display: none;">
                     <div class="imageColumn">
-                        <img src="profileImages/kevin1-300x300.jpg" style="width:100%;">
-                        <div class="xsmallSize greenColor">President Skywalker</div>
+                        <img class="profile_image" src="profileImages/kevin1-300x300.jpg" style="width:100%;">
+                        <div class="xsmallSize greenColor">
+                            <span class="profile_firstname"></span>
+                            <span class="profile_lastname"></span>
+                        </div>
                     </div><div class="infoColumn">
-                        <div class="infoTitle">Sermon Discussion: Warring StarBlades</div>
+                        <div class="infoTitle">
+                            <span class="infoTitle_grouptype"></span>:
+                            <span class="infoTitle_grouptitle"></span>
+                        </div>
                         <div class="infoTime smallSize">
                             <span class="grayColor">Meeting </span>
-                            <span class="greenColor">Twice a Month </span>
-                            <span class="grayColor">on </span>
-                            <span class="greenColor">Wednesday </span>
-                            <span class="grayColor">at </span>
-                            <span class="greenColor">7:30</span>
+                            <span class="greenColor infoTime_frequency"></span>
+                            <span class="grayColor"> on </span>
+                            <span class="greenColor infoTime_day"></span>
+                            <span class="grayColor"> at </span>
+                            <span class="greenColor infoTime_time"></span>
                         </div>
                         <div class="infoDistance smallSize">
-                            <div style="display:inline-block;" class="greenColor">2 </div>
-                            <div style="display:inline-block;" class="grayColor">Miles Away</div>
-                            <div class="pet cat yes"></div>
-                            <div class="pet dog yes"></div>
+                            <div style="display: inline-block">
+                                <div class="infoDistance_miles" style="display: none;">
+                                    <span class="greenColor infoDistance_amount"></span>
+                                    <span class="grayColor"> Miles Away</span>
+                                </div>
+                            </div>
+                            <div class="pet cat"></div>
+                            <div class="pet dog"></div>
                         </div>
                         <div class="infoDescription smallSize">
                             Lightsaber practice.  Plus we watch the entire Star Wars trilogy.  Which one you ask?  Why sir, there is only one, and it ended in the 80's.  Thankfully, we watch the original 35MM film that was shown in theaters.
                         </div>
                     </div>
                 </div>
-                <div class="groupRow">
+                <!--<div class="groupRow">
                     <div class="imageColumn">
                         <img src="profileImages/kevin1-300x300.jpg" style="width:100%;">
                         <div class="xsmallSize greenColor">President Skywalker</div>
@@ -155,7 +171,7 @@ src="https://www.google.com/maps/embed/v1/place?q=91602&key=AIzaSyBStpT46rUZIrZr
                             Lightsaber practice.  Plus we watch the entire Star Wars trilogy.  Which one you ask?  Why sir, there is only one, and it ended in the 80's.  Thankfully, we watch the original 35MM film that was shown in theaters.
                         </div>
                     </div>
-                </div>
+                </div>-->
                 
             </div>
         </div>
