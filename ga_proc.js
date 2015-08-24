@@ -5,6 +5,8 @@
 		links: 'ovbc8ql'
 	};
 
+	var gmap;
+
 	var groupTypes = {};
 	var groupSheetColumnsAssign = { // helps to find which and where data have to be put
 		'gsx$firstname': {type: 'text', sel: '.profile_firstname'},
@@ -74,10 +76,7 @@
 							}
 							break;
 					}
-				}
-				if (colName == 'gsx$grouptype') {
-					groupTypes[obj['$t']] = obj['$t'];
-					rowDiv.data('groupType', obj['$t']);
+					rowDiv.data(colName.replace(/^gsx\$/, ''), colValue);
 				}
 				if (colName == 'gsx$latitude') {
 					rowDiv.data('latitude', parseFloat(obj['$t']));
@@ -85,8 +84,15 @@
 				if (colName == 'gsx$longitude') {
 					rowDiv.data('longitude', parseFloat(obj['$t']));
 				}
+				if (colName == 'gsx$address') {
+					rowDiv.data('address', obj['$t']);
+				}
 			});
 
+			var gt = rowDiv.data('grouptype');
+			groupTypes[gt] = gt;
+
+			attachMarker(rowDiv);
 			rowDiv.appendTo(parentEl).show();
 		}
 	};
@@ -146,17 +152,70 @@
 	var filterList = function (groupType) {
 		if (groupType) {
 			$('.groupRow').each(function (i, v) {
-				if ($(v).data('groupType') == groupType) {
+				if ($(v).data('grouptype') == groupType) {
 					$(v).show();
+					showMarker(v);
 				} else {
 					$(v).hide();
+					hideMarker(v);
 				}
 			});
 		} else {
-			$('.groupRow').show();
+			$('.groupRow').each(function (i, v) {
+				$(v).show();
+				showMarker(v);
+			});
 		}
 	};
 
+
+	/**
+	 * attach marker to group div
+	 * @param rowdiv
+	 */
+	var attachMarker = function(rowDiv){
+		var content = '<div class="gmap_infoblock">' +
+			'<div class="gmap_infoblock_title">' + $(rowDiv).data('grouptitle') + '</div>' +
+			'<div class="gmap_infoblock_address">' + $(rowDiv).data('address') + '</div>' +
+			'<ul>' +
+				'<li><span>Frequency: </span>' + $(rowDiv).data('frequency') + '</li>' +
+				'<li><span>Day: </span>' + $(rowDiv).data('day') + '</li>' +
+				'<li><span>Time: </span>' + $(rowDiv).data('time') + '</li>' +
+				'<li><span>Brief Description: </span>' + $(rowDiv).data('description') + '</li>' +
+			'</ul>' +
+			'<a class="gmap_infoblock_link" href="#" target="_blank">Sign up</a>' +
+			'</div>';
+		var infowindow = new google.maps.InfoWindow({
+			content: content
+		});
+		var marker = new google.maps.Marker({
+			position: {lat: $(rowDiv).data('latitude'), lng: $(rowDiv).data('longitude')},
+			title: $(rowDiv).data('grouptitle')
+		});
+
+		marker.addListener('click', function () {
+			$('.groupRow').each(function (i, v) {
+				var iw = $(v).data('infowindow');
+				iw.close();
+			});
+			infowindow.open(gmap, marker);
+		});
+
+		rowDiv.data('marker', marker);
+		rowDiv.data('infowindow', infowindow);
+		return marker;
+	};
+
+
+	var showMarker = function(rowDiv){
+		var marker = $(rowDiv).data('marker');
+		marker.setMap(gmap);
+	};
+
+	var hideMarker = function(rowDiv){
+		var marker = $(rowDiv).data('marker');
+		marker.setMap(null);
+	};
 
 
 	window.gapi_init = function () {
@@ -166,12 +225,27 @@
 				getSheetData('groups', function(d){
 					parseGroupsSheetData(d);
 					getSheetData('links', parseLinksSheetData);
+					filterList('');
 				});
 			});
+
+			// group types select box event
 			$('.grouptypes').change(function () {
 				var curGroupType = $(this).val();
 				filterList(curGroupType);
 			});
+
+			// group block click event
+			$('.community_group_seeker').on('click', '.groupRow', function(){
+				new google.maps.event.trigger( $(this).data('marker'), 'click' );
+			});
+		});
+	};
+
+	window.gmap_init = function(){
+		gmap = new google.maps.Map(document.getElementById('mapContainer'), {
+			center: {lat: 34.0204989, lng: -118.4117325},
+			zoom: 8
 		});
 	};
 
