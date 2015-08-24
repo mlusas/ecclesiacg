@@ -1,5 +1,9 @@
 (function ($) {
 
+	var worksheetIds = {
+		groups: 'oeif2vi',
+		links: 'ovbc8ql'
+	};
 
 	var groupTypes = {};
 	var groupSheetColumnsAssign = { // helps to find which and where data have to be put
@@ -33,10 +37,11 @@
 	 * request sheet data
 	 * @param clb
 	 */
-	var getSheetsData = function (sheetId, clb) {
+	var getSheetData = function (sheetAlias, clb) {
 		var token = gapi.auth.getToken();
 		var accessToken = token['access_token'];
 		var spreadSheetId = '10l5ejQ_19dVvr_R0uNMhT5svINJdht4SZFEKj5L0WJ0';
+		var sheetId = worksheetIds[sheetAlias];
 		var url = 'https://spreadsheets.google.com/feeds/list/' + spreadSheetId + '/' + sheetId + '/private/full';
 
 		$.ajax({
@@ -108,6 +113,33 @@
 	};
 
 	/**
+	 * parse received sheet data of sign up form links and fill hrefs of links
+	 * @param d
+	 */
+	var parseLinksSheetData = function (d) {
+		if (d && d.feed && d.feed.entry && d.feed.entry.length) {
+			var groupSignupTpl;
+			$.each(d.feed.entry, function (i, rowData) {
+				if( rowData['gsx$formtype']['$t'] == 'Member Signup' ){
+					groupSignupTpl = {
+						template: rowData['gsx$url']['$t'],
+						pattern: new RegExp("\<GroupTitleFromQuery\>")
+					};
+				}
+			});
+
+			if( groupSignupTpl ){
+				$('.groupRow').each(function(i, rowDiv){
+					var href = groupSignupTpl.template.replace(groupSignupTpl.pattern, $(rowDiv).find('.infoTitle_grouptitle').text());
+					$(rowDiv).find('.group_signup_link')
+						.attr('href', href)
+						.show();
+				});
+			}
+		}
+	};
+
+	/**
 	 * filtering groups list
 	 * @param groupType - group type
 	 */
@@ -125,19 +157,21 @@
 		}
 	};
 
-	$(document).ready(function(){
-		$('.grouptypes').change(function () {
-			var curGroupType = $(this).val();
-			filterList(curGroupType);
-		});
-	});
-
 
 
 	window.gapi_init = function () {
-		// run
-		authorize(function () {
-			getSheetsData(1, parseGroupsSheetData);
+		$(document).ready(function(){
+			// run
+			authorize(function () {
+				getSheetData('groups', function(d){
+					parseGroupsSheetData(d);
+					getSheetData('links', parseLinksSheetData);
+				});
+			});
+			$('.grouptypes').change(function () {
+				var curGroupType = $(this).val();
+				filterList(curGroupType);
+			});
 		});
 	};
 
