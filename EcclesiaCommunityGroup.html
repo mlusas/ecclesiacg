@@ -77,7 +77,7 @@
 			.gmap_infoblock_title{font-weight: bold; color: #666;}
 			.gmap_infoblock_address{margin: 10px 0;}
 			.gmap_infoblock>ul{margin: 0; padding: 0; list-style: none;}
-			.gmap_infoblock>ul>li>span{font-weight: bold; color: #666;}
+			.gmap_infoblock>ul>li>span:first-child{font-weight: bold; color: #666;}
 			.gmap_infoblock_link{margin-top: 5px; float: right;}
             
         </style>
@@ -91,7 +91,7 @@
         
     </head>
     <body>
-        <div class="community_group_seeker" style="width:600px;">
+        <div class="community_group_search_block" style="width:600px;">
             
             <div id="mapContainer"></div>
             
@@ -153,6 +153,21 @@
                     </div>
                 </div>
                 
+            </div>
+
+
+            <div class="gmap_infoblock_wrap" style="display: none;">
+                <div class="gmap_infoblock">
+                    <div class="gmap_infoblock_title infoTitle_grouptitle"></div>
+                    <div class="gmap_infoblock_address infoTitle_address"></div>
+                    <ul>
+                        <li><span>Frequency: </span><span class="infoTime_frequency"></span></li>
+                        <li><span>Day: </span><span class="infoTime_day"></span></li>
+                        <li><span>Time: </span><span class="infoTime_time"></span></li>
+                        <li><span>Brief Description: </span><span class="infoDescription"></span></li>
+                    </ul>
+                    <a class="gmap_infoblock_link group_signup_link" href="#" target="_blank">Sign up</a>
+                </div>
             </div>
         </div>
         

@@ -7,6 +7,7 @@
 
 	var gmap;
 
+	var groupSignupTpl;
 	var groupTypes = {};
 	var groupSheetColumnsAssign = { // helps to find which and where data have to be put
 		'gsx$firstname': {type: 'text', sel: '.profile_firstname'},
@@ -19,7 +20,8 @@
 		'gsx$time': {type: 'text', sel: '.infoTime_time'},
 		'gsx$cat': {type: 'class', sel: '.cat', classes: {Yes: 'yes', No: 'no'}},
 		'gsx$dog': {type: 'class', sel: '.dog', classes: {Yes: 'yes', No: 'no'}},
-		'gsx$description': {type: 'text', sel: '.infoDescription'}
+		'gsx$description': {type: 'text', sel: '.infoDescription'},
+		'gsx$address': {type: 'text', sel: '.infoTitle_address'},
 	};
 
 	/**
@@ -59,13 +61,15 @@
 
 	var insertGroupDiv = function (data, rowDiv, parentEl) {
 		if (data['gsx$verified'] && data['gsx$verified']['$t'] && data['gsx$verified']['$t'] == '1') {
+			var gmapInfoContent = $('.gmap_infoblock_wrap').clone();
 			$.each(data, function (colName, obj) {
 				if (groupSheetColumnsAssign[colName]) {
 					var colParams = groupSheetColumnsAssign[colName];
 					var colValue = obj['$t'];
 					switch (colParams['type']) {
 						case 'text':
-							rowDiv.find(colParams.sel).text(colValue);
+							$(rowDiv).find(colParams.sel).text(colValue);
+							gmapInfoContent.find(colParams.sel).text(colValue);
 							break;
 						case 'attr':
 							rowDiv.find(colParams.sel).attr(colParams.modName, colValue);
@@ -84,15 +88,23 @@
 				if (colName == 'gsx$longitude') {
 					rowDiv.data('longitude', parseFloat(obj['$t']));
 				}
-				if (colName == 'gsx$address') {
-					rowDiv.data('address', obj['$t']);
-				}
 			});
 
 			var gt = rowDiv.data('grouptype');
 			groupTypes[gt] = gt;
 
-			attachMarker(rowDiv);
+			if( groupSignupTpl ){
+				var href = groupSignupTpl.template.replace(groupSignupTpl.pattern, rowDiv.find('.infoTitle_grouptitle').text());
+				rowDiv.find('.group_signup_link')
+					.attr('href', href)
+					.show();
+				gmapInfoContent.find('.group_signup_link')
+					.attr('href', href)
+					.show();
+			}
+
+
+			attachMarker(rowDiv, gmapInfoContent.html());
 			rowDiv.appendTo(parentEl).show();
 		}
 	};
@@ -116,6 +128,7 @@
 			});
 			gr.remove();
 		}
+		filterList('');
 	};
 
 	/**
@@ -124,7 +137,6 @@
 	 */
 	var parseLinksSheetData = function (d) {
 		if (d && d.feed && d.feed.entry && d.feed.entry.length) {
-			var groupSignupTpl;
 			$.each(d.feed.entry, function (i, rowData) {
 				if( rowData['gsx$formtype']['$t'] == 'Member Signup' ){
 					groupSignupTpl = {
@@ -133,15 +145,6 @@
 					};
 				}
 			});
-
-			if( groupSignupTpl ){
-				$('.groupRow').each(function(i, rowDiv){
-					var href = groupSignupTpl.template.replace(groupSignupTpl.pattern, $(rowDiv).find('.infoTitle_grouptitle').text());
-					$(rowDiv).find('.group_signup_link')
-						.attr('href', href)
-						.show();
-				});
-			}
 		}
 	};
 
@@ -173,18 +176,7 @@
 	 * attach marker to group div
 	 * @param rowdiv
 	 */
-	var attachMarker = function(rowDiv){
-		var content = '<div class="gmap_infoblock">' +
-			'<div class="gmap_infoblock_title">' + $(rowDiv).data('grouptitle') + '</div>' +
-			'<div class="gmap_infoblock_address">' + $(rowDiv).data('address') + '</div>' +
-			'<ul>' +
-				'<li><span>Frequency: </span>' + $(rowDiv).data('frequency') + '</li>' +
-				'<li><span>Day: </span>' + $(rowDiv).data('day') + '</li>' +
-				'<li><span>Time: </span>' + $(rowDiv).data('time') + '</li>' +
-				'<li><span>Brief Description: </span>' + $(rowDiv).data('description') + '</li>' +
-			'</ul>' +
-			'<a class="gmap_infoblock_link" href="#" target="_blank">Sign up</a>' +
-			'</div>';
+	var attachMarker = function(rowDiv, content){
 		var infowindow = new google.maps.InfoWindow({
 			content: content
 		});
@@ -222,10 +214,9 @@
 		$(document).ready(function(){
 			// run
 			authorize(function () {
-				getSheetData('groups', function(d){
-					parseGroupsSheetData(d);
-					getSheetData('links', parseLinksSheetData);
-					filterList('');
+				getSheetData('links', function(d){
+					parseLinksSheetData(d);
+					getSheetData('groups', parseGroupsSheetData);
 				});
 			});
 
@@ -245,7 +236,7 @@
 	window.gmap_init = function(){
 		gmap = new google.maps.Map(document.getElementById('mapContainer'), {
 			center: {lat: 34.0204989, lng: -118.4117325},
-			zoom: 8
+			zoom: 9
 		});
 	};
 
