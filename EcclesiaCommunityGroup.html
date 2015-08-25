@@ -13,12 +13,12 @@
               position: relative;
             }
             
-            .container-2 input#search{width:100%; height: 34px; background: #d0e1e1; border: none; font-size: 0.8em; float: left; padding: 0 1em; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; color: #2a4949; -webkit-transition: width .55s ease; -moz-transition: width .55s ease; -ms-transition: width .55s ease; -o-transition: width .55s ease; transition: width .55s ease;}
+            .container-2 input.search{width:100%; height: 34px; background: #d0e1e1; border: none; font-size: 0.8em; float: left; padding: 0 1em; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; color: #2a4949; -webkit-transition: width .55s ease; -moz-transition: width .55s ease; -ms-transition: width .55s ease; -o-transition: width .55s ease; transition: width .55s ease;}
             
-            .container-2 input#search::-webkit-input-placeholder { color: #2a4949; }
-            .container-2 input#search:-moz-placeholder { color: #2a4949; } /* Firefox 18- */
-            .container-2 input#search::-moz-placeholder { color: #2a4949; } /* Firefox 19+ */
-            .container-2 input#search:-ms-input-placeholder { color: #2a4949; }
+            .container-2 input.search::-webkit-input-placeholder { color: #2a4949; }
+            .container-2 input.search:-moz-placeholder { color: #2a4949; } /* Firefox 18- */
+            .container-2 input.search::-moz-placeholder { color: #2a4949; } /* Firefox 19+ */
+            .container-2 input.search:-ms-input-placeholder { color: #2a4949; }
             
             .select-style {
                 font-size:1em;
@@ -70,7 +70,7 @@
             .pet.yes{display:inline-block;}
             .pet.no{display:none;}
 
-			.community_group_seeker{font-family: Verdana;}
+			.community_group_search_block{font-family: Verdana;}
 			.group_signup_link{display: none;}
 
 			.gmap_infoblock{font-family: Verdana; color: #888; max-width: 300px; font-size: 11px;}
@@ -87,7 +87,7 @@
         <script src="ga_proc.js"></script>
 
         <script src="//apis.google.com/js/client.js?onload=gapi_init"></script>
-		<script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyBOJpoDfc07UlLA0uTl5a8c9Wd87WlfyAg&callback=gmap_init"></script>
+		<script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyBOJpoDfc07UlLA0uTl5a8c9Wd87WlfyAg&libraries=places&callback=gmap_init"></script>
         
     </head>
     <body>
@@ -99,7 +99,7 @@
                 <div style="display:inline-block; width:30%;">
                     <div class="box">
                       <div class="container-2">
-                          <input type="search" id="search" placeholder="Enter your Zip Code" />
+                          <input type="search" class="search" placeholder="Enter your Zip Code" />
                       </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                 </div>
             </div>
             
-            <div style="width:100%;">
+            <div class="groupRows" style="width:100%;">
                 
                 <div class="groupRow" style="display: none;">
                     <div class="imageColumn">

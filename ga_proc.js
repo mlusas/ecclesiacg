@@ -6,6 +6,7 @@
 	};
 
 	var gmap;
+  var geocoder;
 
 	var groupSignupTpl;
 	var groupTypes = {};
@@ -83,10 +84,10 @@
 					rowDiv.data(colName.replace(/^gsx\$/, ''), colValue);
 				}
 				if (colName == 'gsx$latitude') {
-					rowDiv.data('latitude', parseFloat(obj['$t']));
+					rowDiv.data('lat', parseFloat(obj['$t']));
 				}
 				if (colName == 'gsx$longitude') {
-					rowDiv.data('longitude', parseFloat(obj['$t']));
+					rowDiv.data('lng', parseFloat(obj['$t']));
 				}
 			});
 
@@ -116,7 +117,7 @@
 	var parseGroupsSheetData = function (d) {
 		if (d && d.feed && d.feed.entry && d.feed.entry.length) {
 			var gr = $('.groupRow:eq(0)');
-			var groupParent = gr.parent();
+			var groupParent = $('.groupRows');
 			$.each(d.feed.entry, function (i, rowData) {
 				insertGroupDiv(rowData, gr.clone(), groupParent);
 			});
@@ -151,24 +152,61 @@
 	/**
 	 * filtering groups list
 	 * @param groupType - group type
+   * @param address - string of address
 	 */
-	var filterList = function (groupType) {
-		if (groupType) {
-			$('.groupRow').each(function (i, v) {
-				if ($(v).data('grouptype') == groupType) {
-					$(v).show();
-					showMarker(v);
-				} else {
-					$(v).hide();
-					hideMarker(v);
-				}
-			});
-		} else {
-			$('.groupRow').each(function (i, v) {
-				$(v).show();
-				showMarker(v);
-			});
-		}
+	var filterList = function (groupType, address) {
+    if (typeof groupType !== 'undefined') {
+      if (groupType) {
+        $('.groupRow').each(function (i, v) {
+          if ($(v).data('grouptype') == groupType) {
+            $(v).show();
+            showMarker(v);
+          } else {
+            $(v).hide();
+            hideMarker(v);
+          }
+        });
+      } else {
+        $('.groupRow').each(function (i, v) {
+          $(v).show();
+          showMarker(v);
+        });
+      }
+    }
+    if (typeof address !== 'undefined') {
+      getLocation(address, function(res){
+        if( res && res.length ){
+          var location = res[0].geometry.location;
+
+          var forthDist = 0;
+
+          $('.groupRow').each(function (i, v) {
+            var dist = calcDistance($(v).data('lat'), $(v).data('lng'), location.G, location.K);
+            $(v).data('distance', dist);
+            $(v).find('.infoDistance_amount').text(Math.round(dist) || "<1");
+            $(v).find('.infoDistance_miles').show();
+          });
+
+          var parent = $('.groupRows').parent();
+          $(parent).find('.groupRow').sort(function (a, b) {
+            return $(a).data('distance') > $(b).data('distance');
+          }).appendTo( parent );
+
+          $('.groupRow').each(function (i, v) {
+            if( i < 4 ){
+              forthDist = $(v).data('distance');
+            }
+          });
+
+
+          gmap.setCenter(location);
+          if( forthDist > 0 ){
+            var zoom = Math.round(14-Math.log(forthDist)/Math.LN2);
+            gmap.setZoom(zoom);
+          }
+        }
+      });
+    }
 	};
 
 
@@ -181,7 +219,7 @@
 			content: content
 		});
 		var marker = new google.maps.Marker({
-			position: {lat: $(rowDiv).data('latitude'), lng: $(rowDiv).data('longitude')},
+			position: {lat: $(rowDiv).data('lat'), lng: $(rowDiv).data('lng')},
 			title: $(rowDiv).data('grouptitle')
 		});
 
@@ -209,6 +247,26 @@
 		marker.setMap(null);
 	};
 
+	var getLocation = function(address, clb){
+		geocoder.geocode( { 'address': address, componentRestrictions: { country: 'US'}}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        clb(results)
+      }
+    });
+	};
+
+  var calcDistance = function(){
+    var radians = Array.prototype.map.call(arguments, function(deg) { return deg/180.0 * Math.PI; });
+    var lat1 = radians[0], lon1 = radians[1], lat2 = radians[2], lon2 = radians[3];
+    //var R = 6372.8; // km
+    var R = 3959.87; // miles
+    var dLat = lat2 - lat1;
+    var dLon = lon2 - lon1;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat /2) + Math.sin(dLon / 2) * Math.sin(dLon /2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.asin(Math.sqrt(a));
+    return R * c;
+  };
+
 
 	window.gapi_init = function () {
 		$(document).ready(function(){
@@ -227,9 +285,16 @@
 			});
 
 			// group block click event
-			$('.community_group_seeker').on('click', '.groupRow', function(){
-				new google.maps.event.trigger( $(this).data('marker'), 'click' );
-			});
+			$('.community_group_search_block')
+        .on('click', '.groupRow', function(){
+  				new google.maps.event.trigger( $(this).data('marker'), 'click' );
+			  })
+        .on('keypress', '.search', function(ev){
+          if ( ev.which == 13 ) {
+            filterList(null, $(this).val());
+          }
+        }
+      );
 		});
 	};
 
@@ -238,6 +303,25 @@
 			center: {lat: 34.0204989, lng: -118.4117325},
 			zoom: 9
 		});
+
+    geocoder = new google.maps.Geocoder();
+
+    /*defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(32.936065, -119.574867),
+      new google.maps.LatLng(35.143478, -116.221291)
+    );
+    var input = document.getElementsByClassName('search');
+    var options = {
+      bounds: defaultBounds,
+      types: ['establishment'],
+      componentRestrictions: { country: 'US'}
+    };
+
+    autocomplete = new google.maps.places.Autocomplete(input[0], options);*/
+
 	};
+
+
+
 
 })($);
