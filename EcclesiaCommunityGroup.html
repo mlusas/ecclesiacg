@@ -62,6 +62,7 @@
             .infoTitle{width:100%; font-weight:800;}
             .infoTime{margin:0.5em 0;}
             .infoDistance{margin:0.5em 0;}
+			.infoSummer{margin:0.5em 0;}
             .infoDescription{margin:0.5em 0; text-align:justify;}
             
             .pet{height:20px; width: 20px; background-repeat: no-repeat; vertical-align: sub; margin: 0 0.5em;}
@@ -79,7 +80,8 @@
 			.gmap_infoblock>ul{margin: 0; padding: 0; list-style: none;}
 			.gmap_infoblock>ul>li>span:first-child{font-weight: bold; color: #666;}
 			.gmap_infoblock_link{margin-top: 5px; float: right;}
-            
+			.search_message{display: none; background: #d0e1e1; border-radius: 7px; border: 2px solid #8ca9a9; bottom: 14px; color: #2a4949; padding: 5px 15px; position: absolute; z-index: 98; font-size: 0.8em; left: 11px;}
+			.search_message:before{border: solid; border-color: #8ca9a9 transparent; border-width: 6px 6px 0 6px; bottom: -8px; content: ''; left: 47%; position: absolute; z-index: 99;}
         </style>
 
         <!--TODO: delete jquery before deploy-->
@@ -99,6 +101,7 @@
                     <div class="box">
                       <div class="container-2">
                           <input type="search" class="search" placeholder="Enter your Zip Code" />
+						  <div class="search_message">Address not found</div>
                       </div>
                     </div>
                 </div>
@@ -148,6 +151,9 @@
 								<a class="group_signup_link" href="#" target="_blank">Sign up</a>
 							</div>
                         </div>
+						<div class="infoSummer smallSize grayColor">
+							Active in Summer: <span class="infoSummer_bool greenColor">No</span>
+						</div>
                         <div class="infoDescription smallSize"></div>
                     </div>
                 </div>
@@ -163,6 +169,7 @@
                         <li><span>Frequency: </span><span class="infoTime_frequency"></span></li>
                         <li><span>Day: </span><span class="infoTime_day"></span></li>
                         <li><span>Time: </span><span class="infoTime_time"></span></li>
+						<li><span>Active in Summer: </span><span class="infoSummer_bool"></span></li>
                         <li><span>Brief Description: </span><span class="infoDescription"></span></li>
                     </ul>
                     <a class="gmap_infoblock_link group_signup_link" href="#" target="_blank">Sign up</a>

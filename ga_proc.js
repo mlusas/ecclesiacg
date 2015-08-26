@@ -5,8 +5,16 @@
 		links: 'ovbc8ql'
 	};
 
-	var gmap;
-  var geocoder;
+	var gmap; // google map instance
+  var geocoder; // google geocoder instance
+
+  var geocodingArea = [ // area of Los Angeles
+    [32.931270, -119.494702],
+    [34.771880, -116.566846]
+  ];
+
+  var addressLastSearch; // remembers last user's address searched
+  var curAddressMarker; // found user's location marker
 
 	var groupSignupTpl;
 	var groupTypes = {};
@@ -23,6 +31,7 @@
 		'gsx$dog': {type: 'class', sel: '.dog', classes: {Yes: 'yes', No: 'no'}},
 		'gsx$description': {type: 'text', sel: '.infoDescription'},
 		'gsx$address': {type: 'text', sel: '.infoTitle_address'},
+    'gsx$activeinsummer': {type: 'text', sel: '.infoSummer_bool'},
 	};
 
 
@@ -157,13 +166,30 @@
         });
       }
     }
-    if (typeof address !== 'undefined') {
+
+
+    if( address ){
+      if( addressLastSearch == address ){
+        return;
+      }
+      if( curAddressMarker ){
+        curAddressMarker.setMap(null);
+      }
+      addressLastSearch = address;
       getLocation(address, function(res){
         if( res && res.length ){
           var location = res[0].geometry.location;
+          if( location.G < geocodingArea[0][0] || location.G > geocodingArea[1][0] ||
+            location.K < geocodingArea[0][1] || location.K > geocodingArea[1][1] ){
+            $('.search_message').fadeIn(200, function(){
+              setTimeout(function(){$('.search_message').fadeOut(200)}, 1500);
+            });
+            return;
+          }
 
           var forthDist = 0;
 
+          // calculating distances and updating group rows
           $('.groupRow').each(function (i, v) {
             var dist = calcDistance($(v).data('lat'), $(v).data('lng'), location.G, location.K);
             $(v).data('distance', dist);
@@ -171,23 +197,33 @@
             $(v).find('.infoDistance_miles').show();
           });
 
+          // sorting groups rows by distance ascending
           var parent = $('.groupRows').parent();
           $(parent).find('.groupRow').sort(function (a, b) {
             return $(a).data('distance') > $(b).data('distance');
           }).appendTo( parent );
 
+          // calculating distance to 4th group location
           $('.groupRow').each(function (i, v) {
             if( i < 4 ){
               forthDist = $(v).data('distance');
             }
           });
 
-
+          // setting center and zoom of map
           gmap.setCenter(location);
           if( forthDist > 0 ){
-            var zoom = Math.round(14-Math.log(forthDist)/Math.LN2);
+            var zoom = Math.round(13-Math.log(forthDist)/Math.LN2);
             gmap.setZoom(zoom);
           }
+
+          // creating marker on found address location
+          curAddressMarker = new google.maps.Marker({
+            position: {lat: location.G, lng: location.K},
+            icon: "./images/gmap_icon.png",
+            map: gmap,
+            title: address
+          });
         }
       });
     }
@@ -231,6 +267,11 @@
 		marker.setMap(null);
 	};
 
+  /**
+   * request coordinates from google geocoder for specified address
+   * @param address
+   * @param clb
+   */
 	var getLocation = function(address, clb){
 		geocoder.geocode( { 'address': address, componentRestrictions: { country: 'US'}}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -239,6 +280,10 @@
     });
 	};
 
+  /**
+   * haversine formula for calculating distance for two points on map
+   * @returns {number} - distance in miles
+   */
   var calcDistance = function(){
     var radians = Array.prototype.map.call(arguments, function(deg) { return deg/180.0 * Math.PI; });
     var lat1 = radians[0], lon1 = radians[1], lat2 = radians[2], lon2 = radians[3];
@@ -273,35 +318,21 @@
         filterList(curGroupType);
       });
 
-      // group block click event
       $('.community_group_search_block')
-        .on('click', '.groupRow', function(){
+        .on('click', '.groupRow', function(){ // group block click event
           new google.maps.event.trigger( $(this).data('marker'), 'click' );
         })
-        .on('keypress', '.search', function(ev){
+        .on('keypress', '.search', function(ev){  // search input box 'Enter' pressing event
           if ( ev.which == 13 ) {
-            filterList(null, $(this).val());
+            filterList(null, $(this).val(), 'press');
           }
-        }
-      );
+        })
+        .on('blur', '.search', function(){  // search input box loosing focus event
+          filterList(null, $(this).val(), 'blur');
+        });
     });
 
-    /*defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(32.936065, -119.574867),
-      new google.maps.LatLng(35.143478, -116.221291)
-    );
-    var input = document.getElementsByClassName('search');
-    var options = {
-      bounds: defaultBounds,
-      types: ['establishment'],
-      componentRestrictions: { country: 'US'}
-    };
-
-    autocomplete = new google.maps.places.Autocomplete(input[0], options);*/
-
 	};
-
-
 
 
 })($);
