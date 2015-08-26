@@ -25,35 +25,20 @@
 		'gsx$address': {type: 'text', sel: '.infoTitle_address'},
 	};
 
-	/**
-	 * authorize using oAuth 2.0 in silent mode to get access to spreadsheet
-	 * @param clb
-	 */
-	var authorize = function (clb) {
-		var config = {
-			'client_id': '98604355830-ffverp07e7maspub3ipialbjjafttohk.apps.googleusercontent.com',
-			'scope': 'https://spreadsheets.google.com/feeds',
-			'immediate': true // auth without google popup
-		};
-		gapi.auth.authorize(config, clb);
-	};
 
 	/**
 	 * request sheet data
 	 * @param clb
 	 */
 	var getSheetData = function (sheetAlias, clb) {
-		var token = gapi.auth.getToken();
-		var accessToken = token['access_token'];
 		var spreadSheetId = '10l5ejQ_19dVvr_R0uNMhT5svINJdht4SZFEKj5L0WJ0';
 		var sheetId = worksheetIds[sheetAlias];
-		var url = 'https://spreadsheets.google.com/feeds/list/' + spreadSheetId + '/' + sheetId + '/private/full';
+		var url = 'https://spreadsheets.google.com/feeds/list/' + spreadSheetId + '/' + sheetId + '/public/full';
 
 		$.ajax({
 			url: url,
 			data: {
-				alt: 'json',
-				access_token: accessToken
+				alt: 'json'
 			},
 			success: clb
 		});
@@ -103,7 +88,6 @@
 					.attr('href', href)
 					.show();
 			}
-
 
 			attachMarker(rowDiv, gmapInfoContent.html());
 			rowDiv.appendTo(parentEl).show();
@@ -268,36 +252,6 @@
   };
 
 
-	window.gapi_init = function () {
-		$(document).ready(function(){
-			// run
-			authorize(function () {
-				getSheetData('links', function(d){
-					parseLinksSheetData(d);
-					getSheetData('groups', parseGroupsSheetData);
-				});
-			});
-
-			// group types select box event
-			$('.grouptypes').change(function () {
-				var curGroupType = $(this).val();
-				filterList(curGroupType);
-			});
-
-			// group block click event
-			$('.community_group_search_block')
-        .on('click', '.groupRow', function(){
-  				new google.maps.event.trigger( $(this).data('marker'), 'click' );
-			  })
-        .on('keypress', '.search', function(ev){
-          if ( ev.which == 13 ) {
-            filterList(null, $(this).val());
-          }
-        }
-      );
-		});
-	};
-
 	window.gmap_init = function(){
 		gmap = new google.maps.Map(document.getElementById('mapContainer'), {
 			center: {lat: 34.0204989, lng: -118.4117325},
@@ -305,6 +259,32 @@
 		});
 
     geocoder = new google.maps.Geocoder();
+
+    $(document).ready(function(){
+      // run
+      getSheetData('links', function(d){
+        parseLinksSheetData(d);
+        getSheetData('groups', parseGroupsSheetData);
+      });
+
+      // group types select box event
+      $('.grouptypes').change(function () {
+        var curGroupType = $(this).val();
+        filterList(curGroupType);
+      });
+
+      // group block click event
+      $('.community_group_search_block')
+        .on('click', '.groupRow', function(){
+          new google.maps.event.trigger( $(this).data('marker'), 'click' );
+        })
+        .on('keypress', '.search', function(ev){
+          if ( ev.which == 13 ) {
+            filterList(null, $(this).val());
+          }
+        }
+      );
+    });
 
     /*defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(32.936065, -119.574867),
