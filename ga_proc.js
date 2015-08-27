@@ -8,10 +8,12 @@
 	var gmap; // google map instance
   var geocoder; // google geocoder instance
 
-  var geocodingArea = [ // area of Los Angeles
-    [32.931270, -119.494702],
-    [34.771880, -116.566846]
+
+  var geocodingAreaCenter = [  // Los Angeles, CA 90028, USA
+    34.1012181, -118.325739
   ];
+  var geocodingAreaRadius = 50;  // (in miles) defines area within this radius from geocodingAreaCenter
+
 
   var addressLastSearch; // remembers last user's address searched
   var curAddressMarker; // found user's location marker
@@ -67,7 +69,10 @@
 							gmapInfoContent.find(colParams.sel).text(colValue);
 							break;
 						case 'attr':
-							rowDiv.find(colParams.sel).attr(colParams.modName, colValue);
+              rowDiv.find(colParams.sel).attr(colParams.modName, colValue);
+              if( colParams.modName == 'src' && !colValue ){ // remove image if src empty
+                rowDiv.find(colParams.sel).remove();
+              }
 							break;
 						case 'class':
 							if (colParams.classes[colValue]) {
@@ -84,6 +89,11 @@
 					rowDiv.data('lng', parseFloat(obj['$t']));
 				}
 			});
+
+      if( !rowDiv.data('lat') || !rowDiv.data('lng') ||
+        !rowDiv.data('grouptype') || !rowDiv.data('grouptype') ){
+        return;
+      }
 
 			var gt = rowDiv.data('grouptype');
 			groupTypes[gt] = gt;
@@ -147,86 +157,91 @@
 	 * @param groupType - group type
    * @param address - string of address
 	 */
-	var filterList = function (groupType, address) {
-    if (typeof groupType !== 'undefined') {
-      if (groupType) {
-        $('.groupRow').each(function (i, v) {
-          if ($(v).data('grouptype') == groupType) {
-            $(v).show();
-            showMarker(v);
-          } else {
-            $(v).hide();
-            hideMarker(v);
-          }
-        });
-      } else {
-        $('.groupRow').each(function (i, v) {
-          $(v).show();
-          showMarker(v);
-        });
-      }
-    }
-
-
-    if( address ){
-      if( addressLastSearch == address ){
-        return;
-      }
-      if( curAddressMarker ){
-        curAddressMarker.setMap(null);
-      }
-      addressLastSearch = address;
-      getLocation(address, function(res){
-        if( res && res.length ){
-          var location = res[0].geometry.location;
-          if( location.G < geocodingArea[0][0] || location.G > geocodingArea[1][0] ||
-            location.K < geocodingArea[0][1] || location.K > geocodingArea[1][1] ){
-            $('.search_message').fadeIn(200, function(){
-              setTimeout(function(){$('.search_message').fadeOut(200)}, 1500);
-            });
-            return;
-          }
-
-          var forthDist = 0;
-
-          // calculating distances and updating group rows
+	var filterList = function (address) {
+    try {
+      var groupType = $('.grouptypes').val();
+      if (typeof groupType !== 'undefined') {
+        if (groupType) {
           $('.groupRow').each(function (i, v) {
-            var dist = calcDistance($(v).data('lat'), $(v).data('lng'), location.G, location.K);
-            $(v).data('distance', dist);
-            $(v).find('.infoDistance_amount').text(Math.round(dist) || "<1");
-            $(v).find('.infoDistance_miles').show();
-          });
-
-          // sorting groups rows by distance ascending
-          var parent = $('.groupRows').parent();
-          $(parent).find('.groupRow').sort(function (a, b) {
-            return $(a).data('distance') > $(b).data('distance');
-          }).appendTo( parent );
-
-          // calculating distance to 4th group location
-          $('.groupRow').each(function (i, v) {
-            if( i < 4 ){
-              forthDist = $(v).data('distance');
+            if ($(v).data('grouptype') == groupType) {
+              $(v).show();
+              showMarker(v);
+            } else {
+              $(v).hide();
+              hideMarker(v);
             }
           });
-
-          // setting center and zoom of map
-          gmap.setCenter(location);
-          if( forthDist > 0 ){
-            var zoom = Math.round(13-Math.log(forthDist)/Math.LN2);
-            gmap.setZoom(zoom);
-          }
-
-          // creating marker on found address location
-          curAddressMarker = new google.maps.Marker({
-            position: {lat: location.G, lng: location.K},
-            icon: "./images/gmap_icon.png",
-            map: gmap,
-            title: address
+        } else {
+          $('.groupRow').each(function (i, v) {
+            $(v).show();
+            showMarker(v);
           });
         }
-      });
-    }
+      }
+
+
+      if (address) {
+        if (addressLastSearch == address) {
+          return;
+        }
+        if (curAddressMarker) {
+          curAddressMarker.setMap(null);
+        }
+        addressLastSearch = address;
+        getLocation(address, function (res) { try {
+          if (res && res.length) {
+            var location = res[0].geometry.location;
+            // check if location found is in permitted geocodin area
+            if (calcDistance(location.G, location.K, geocodingAreaCenter[0], geocodingAreaCenter[1]) > geocodingAreaRadius) {
+              $('.search_message').fadeIn(200, function () {
+                setTimeout(function () {
+                  $('.search_message').fadeOut(200)
+                }, 1500);
+              });
+              return;
+            }
+
+            var forthDist = 0;
+
+            // calculating distances and updating group rows
+            $('.groupRow').each(function (i, v) {
+              var dist = calcDistance($(v).data('lat'), $(v).data('lng'), location.G, location.K);
+              $(v).data('distance', dist);
+              $(v).find('.infoDistance_amount').text(Math.round(dist) || "<1");
+              $(v).find('.infoDistance_miles').show();
+            });
+
+            // sorting groups rows by distance ascending
+            var parent = $('.groupRows').parent();
+            $(parent).find('.groupRow').sort(function (a, b) {
+              return $(a).data('distance') > $(b).data('distance');
+            }).appendTo(parent);
+
+            // calculating distance to 4th group location
+            $('.groupRow').each(function (i, v) {
+              if (i < 4) {
+                forthDist = $(v).data('distance');
+              }
+            });
+
+            // setting center and zoom of map
+            gmap.setCenter(location);
+            if (forthDist > 0) {
+              var zoom = Math.round(13 - Math.log(forthDist) / Math.LN2);
+              gmap.setZoom(zoom);
+            }
+
+            // creating marker on found address location
+            curAddressMarker = new google.maps.Marker({
+              position: {lat: location.G, lng: location.K},
+              icon: "./images/gmap_icon.png",
+              map: gmap,
+              title: address
+            });
+          }
+        } catch(er){}});
+      }
+    } catch(er){}
 	};
 
 
@@ -297,42 +312,74 @@
   };
 
 
+
+
 	window.gmap_init = function(){
-		gmap = new google.maps.Map(document.getElementById('mapContainer'), {
-			center: {lat: 34.0204989, lng: -118.4117325},
-			zoom: 9
-		});
-
-    geocoder = new google.maps.Geocoder();
-
-    $(document).ready(function(){
-      // run
-      getSheetData('links', function(d){
-        parseLinksSheetData(d);
-        getSheetData('groups', parseGroupsSheetData);
+    try{
+      gmap = new google.maps.Map(document.getElementById('mapContainer'), {
+        center: {lat: 34.0204989, lng: -118.4117325},
+        zoom: 9
       });
 
-      // group types select box event
-      $('.grouptypes').change(function () {
-        var curGroupType = $(this).val();
-        filterList(curGroupType);
-      });
+      geocoder = new google.maps.Geocoder();
 
-      $('.community_group_search_block')
-        .on('click', '.groupRow', function(){ // group block click event
-          new google.maps.event.trigger( $(this).data('marker'), 'click' );
-        })
-        .on('keypress', '.search', function(ev){  // search input box 'Enter' pressing event
-          if ( ev.which == 13 ) {
-            filterList(null, $(this).val(), 'press');
-          }
-        })
-        .on('blur', '.search', function(){  // search input box loosing focus event
-          filterList(null, $(this).val(), 'blur');
+      $(document).ready(function(){
+        // run
+        getSheetData('links', function (d) {
+          try {
+            parseLinksSheetData(d);
+            getSheetData('groups', function(d_){
+              try {
+                parseGroupsSheetData(d_);
+              } catch( er ){}
+            });
+          } catch( er ){}
         });
-    });
 
-	};
+        // group types select box event
+        $('.grouptypes').change(function () {
+          filterList();
+        });
+
+        $('.community_group_search_block')
+          .on('click', '.groupRow', function () { // group block click event
+            new google.maps.event.trigger($(this).data('marker'), 'click');
+          })
+          .on('keypress', '.search', function (ev) {  // search input box 'Enter' pressing event
+            if (ev.which == 13) {
+              filterList($(this).val());
+            }
+          })
+          .on('blur', '.search', function () {  // search input box loosing focus event
+            filterList($(this).val());
+          });
+      });
+
+    } catch( er ){}
+
+    // TODO: remove before deploy
+    if( window.location.href.match('\.*showArea=1') ){
+      // Create marker
+      var marker = new google.maps.Marker({
+        map: gmap,
+        position: new google.maps.LatLng(34.1012181, -118.325739)
+      });
+
+      var circle = new google.maps.Circle({
+        map: gmap,
+        radius: 80465,    // 50 miles
+        fillColor: '#bbb',
+        strokeColor: '#999',
+        strokeWeight: 1
+      });
+      circle.bindTo('center', marker, 'position');
+    };
+
+  };
+
+  // get google maps api
+  $.getScript("//maps.googleapis.com/maps/api/js?key=AIzaSyBOJpoDfc07UlLA0uTl5a8c9Wd87WlfyAg&libraries=places&callback=gmap_init");
+
 
 
 })($);

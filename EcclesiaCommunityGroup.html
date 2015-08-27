@@ -57,6 +57,7 @@
             #browseBar{width:100%; background-color:#8ca9a9; height: 50px; box-sizing: border-box; padding:8px;}
             
             .groupRow{width:100%; background-color: #f1f8f8;}
+			.groupRow:nth-child(even){background-color: #fff;}
             .imageColumn{display:inline-block; width:18.5%; padding:0.5em 1% 0.5em 1.5%; vertical-align: top;}
             .infoColumn{display:inline-block; width:76.5%; padding: 0.5em 1.5% 0.5em 1%; vertical-align:top;}
             .infoTitle{width:100%; font-weight:800;}
@@ -71,7 +72,7 @@
             .pet.yes{display:inline-block;}
             .pet.no{display:none;}
 
-			.community_group_search_block{font-family: Verdana;}
+			.community_group_search_block{font-family: Verdana;width:600px;}
 			.group_signup_link{display: none;}
 
 			.gmap_infoblock{font-family: Verdana; color: #888; max-width: 300px; font-size: 11px;}
@@ -79,20 +80,19 @@
 			.gmap_infoblock_address{margin: 10px 0;}
 			.gmap_infoblock>ul{margin: 0; padding: 0; list-style: none;}
 			.gmap_infoblock>ul>li>span:first-child{font-weight: bold; color: #666;}
-			.gmap_infoblock_link{margin-top: 5px; float: right;}
+			.gmap_infoblock_link{margin-left: 10px;}
 			.search_message{display: none; background: #d0e1e1; border-radius: 7px; border: 2px solid #8ca9a9; bottom: 14px; color: #2a4949; padding: 5px 15px; position: absolute; z-index: 98; font-size: 0.8em; left: 11px;}
 			.search_message:before{border: solid; border-color: #8ca9a9 transparent; border-width: 6px 6px 0 6px; bottom: -8px; content: ''; left: 47%; position: absolute; z-index: 99;}
         </style>
 
         <!--TODO: delete jquery before deploy-->
-        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <script src="ga_proc.js"></script>
 
-        <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyBOJpoDfc07UlLA0uTl5a8c9Wd87WlfyAg&libraries=places&callback=gmap_init"></script>
         
     </head>
     <body>
-        <div class="community_group_search_block" style="width:600px;">
+        <div class="community_group_search_block">
             
             <div id="mapContainer"></div>
             
@@ -105,9 +105,7 @@
                       </div>
                     </div>
                 </div>
-                <div style="display:inline-block; width:43%;"></div>
-                
-                <div style="display:inline-block; width:25%;">
+                <div style="display:inline-block; width:25%; float:right;">
                     <div class="select-style">
                       <select class="grouptypes">
                         <option value="">Group Type</option>
@@ -163,7 +161,9 @@
 
             <div class="gmap_infoblock_wrap" style="display: none;">
                 <div class="gmap_infoblock">
-                    <div class="gmap_infoblock_title infoTitle_grouptitle"></div>
+                    <div class="gmap_infoblock_title ">
+						<span class="infoTitle_grouptitle"></span> <a class="gmap_infoblock_link group_signup_link" href="#" target="_blank">Sign up</a>
+					</div>
                     <div class="gmap_infoblock_address infoTitle_address"></div>
                     <ul>
                         <li><span>Frequency: </span><span class="infoTime_frequency"></span></li>
@@ -172,19 +172,10 @@
 						<li><span>Active in Summer: </span><span class="infoSummer_bool"></span></li>
                         <li><span>Brief Description: </span><span class="infoDescription"></span></li>
                     </ul>
-                    <a class="gmap_infoblock_link group_signup_link" href="#" target="_blank">Sign up</a>
+
                 </div>
             </div>
         </div>
-        
-        <script>
-            var rows = document.getElementsByClassName("groupRow");
-            for(var i=0; i<rows.length; i++) {
-                if(i % 2 == 0){
-                    rows[i].style.backgroundColor = "white";
-                }
-            }
-        </script>
         
     </body>
 </html>
