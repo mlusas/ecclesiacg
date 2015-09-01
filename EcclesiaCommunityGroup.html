@@ -1,101 +1,20 @@
 <html>
 
     <head>
-        <style>
-            .greenColor{color:#1d7b7b;}
-            .grayColor{color:#434343;}
-            .smallSize{font-size:0.875em;}
-            .xsmallSize{font-size:0.5em;}
-            
-            .container-2{
-              vertical-align: middle;
-              white-space: nowrap;
-              position: relative;
-            }
-            
-            .container-2 input.search{width:100%; height: 34px; background: #d0e1e1; border: none; font-size: 0.8em; float: left; padding: 0 1em; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; color: #2a4949; -webkit-transition: width .55s ease; -moz-transition: width .55s ease; -ms-transition: width .55s ease; -o-transition: width .55s ease; transition: width .55s ease;}
-            
-            .container-2 input.search::-webkit-input-placeholder { color: #2a4949; }
-            .container-2 input.search:-moz-placeholder { color: #2a4949; } /* Firefox 18- */
-            .container-2 input.search::-moz-placeholder { color: #2a4949; } /* Firefox 19+ */
-            .container-2 input.search:-ms-input-placeholder { color: #2a4949; }
-            
-            .select-style {
-                font-size:1em;
-                box-sizing: border-box;
-                height:34px;
-                vertical-align: middle;
-                padding: 5px 0;
-                width: 100%;
-                border-radius: 7px;
-                overflow: hidden;
-                background: #d0e1e1 url("images/downarrow.png") no-repeat 100% 50%;
-                cursor: pointer;
-                /* background: #2a4949 url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%; */
-            }
-
-            .select-style select {
-                cursor: pointer;
-                font-size:0.8em;
-                color:#2a4949;
-                padding: 5px 8px;
-                width: 130%;
-                border: none;
-                box-shadow: none;
-                background-color: transparent;
-                background-image: none;
-                -webkit-appearance: none;
-                   -moz-appearance: none;
-                        appearance: none;
-            }
-
-            .select-style select:focus {
-                outline: none;
-            }
-            
-            #mapContainer{width:100%; height:300px; background-color:#000000; color:#fff;}
-            #browseBar{width:100%; background-color:#8ca9a9; height: 50px; box-sizing: border-box; padding:8px;}
-            
-            .groupRow{width:100%; background-color: #f1f8f8;}
-			.groupRow:nth-child(even){background-color: #fff;}
-            .imageColumn{display:inline-block; width:18.5%; padding:0.5em 1% 0.5em 1.5%; vertical-align: top;}
-            .infoColumn{display:inline-block; width:76.5%; padding: 0.5em 1.5% 0.5em 1%; vertical-align:top;}
-            .infoTitle{width:100%; font-weight:800;}
-            .infoTime{margin:0.5em 0;}
-            .infoDistance{margin:0.5em 0;}
-			.infoSummer{margin:0.5em 0;}
-            .infoDescription{margin:0.5em 0; text-align:justify;}
-            
-            .pet{height:20px; width: 20px; background-repeat: no-repeat; vertical-align: sub; margin: 0 0.5em;}
-            .cat{background: url(images/cat.png); background-size: 100%;}
-            .dog{background: url(images/dog.png); background-size: 100%;}
-            .pet.yes{display:inline-block;}
-            .pet.no{display:none;}
-
-			.community_group_search_block{font-family: Verdana;width:600px;}
-			.group_signup_link{display: none;}
-
-			.gmap_infoblock{font-family: Verdana; color: #888; max-width: 300px; font-size: 11px;}
-			.gmap_infoblock_title{font-weight: bold; color: #666;}
-			.gmap_infoblock_address{margin: 10px 0;}
-			.gmap_infoblock>ul{margin: 0; padding: 0; list-style: none;}
-			.gmap_infoblock>ul>li>span:first-child{font-weight: bold; color: #666;}
-			.gmap_infoblock_link{margin-left: 10px;}
-			.search_message{display: none; background: #d0e1e1; border-radius: 7px; border: 2px solid #8ca9a9; bottom: 14px; color: #2a4949; padding: 5px 15px; position: absolute; z-index: 98; font-size: 0.8em; left: 11px;}
-			.search_message:before{border: solid; border-color: #8ca9a9 transparent; border-width: 6px 6px 0 6px; bottom: -8px; content: ''; left: 47%; position: absolute; z-index: 99;}
-        </style>
-
         <!--TODO: delete jquery before deploy-->
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+		<link href="css.css" rel="stylesheet">
         <script src="ga_proc.js"></script>
 
-        
+
     </head>
     <body>
         <div class="community_group_search_block">
-            
+
             <div id="mapContainer"></div>
-            
+
             <div id="browseBar">
                 <div style="display:inline-block; width:30%;">
                     <div class="box">
@@ -113,12 +32,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="groupRows" style="width:100%;">
-                
+
                 <div class="groupRow" style="display: none;">
                     <div class="imageColumn">
-                        <img class="profile_image" src="profileImages/kevin1-300x300.jpg" style="width:100%;">
+                        <img class="profile_image" src="" style="width:100%;">
                         <div class="xsmallSize greenColor">
                             <span class="profile_firstname"></span>
                             <span class="profile_lastname"></span>
@@ -155,7 +74,7 @@
                         <div class="infoDescription smallSize"></div>
                     </div>
                 </div>
-                
+
             </div>
 
 
