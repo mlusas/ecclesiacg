@@ -214,7 +214,7 @@
             // sorting groups rows by distance ascending
             var parent = $('.groupRows').parent();
             $(parent).find('.groupRow').sort(function (a, b) {
-              return $(a).data('distance') > $(b).data('distance');
+              return $(a).data('distance') > $(b).data('distance') ? 1 : -1;
             }).appendTo(parent);
 
             // calculating distance to 4th group location
@@ -310,8 +310,6 @@
     var c = 2 * Math.asin(Math.sqrt(a));
     return R * c;
   };
-
-
 
 
 	window.gmap_init = function(){
