@@ -53,9 +53,9 @@
 
 .groupRow{width:100%; background-color: #f1f8f8;}
 .groupRow:nth-child(even){background-color: #fff;}
-.imageColumn{display:inline-block; width:18.5%; padding:0.5em 1% 0.5em 1.5%; vertical-align: top;}
-.infoColumn{display:inline-block; width:76.5%; padding: 0.5em 1.5% 0.5em 1%; vertical-align:top;}
-.infoTitle{width:100%; font-weight:800;}
+.imageColumn{display:inline-block; width: 120px; margin: 10px 5px 10px 10px; vertical-align: top;}
+.infoColumn{display:inline-block; width: 450px; margin: 10px 10px 10px 5px; vertical-align:top;}
+.infoTitle{width:100%; font-weight:800; font-size: 1em;}
 .infoTime{margin:0.5em 0;}
 .infoDistance{margin:0.5em 0;}
 .infoSummer{margin:0.5em 0;}
@@ -67,8 +67,8 @@
 .pet.yes{display:inline-block;}
 .pet.no{display:none;}
 
-.community_group_search_block{font-family: Verdana;width:600px;}
-.group_signup_link{display: none;}
+.community_group_search_block{font-family: Verdana;width:600px;margin: auto;}
+.group_signup_link{display: none; color: #02BBBB;}
 
 .gmap_infoblock{font-family: Verdana; color: #888; max-width: 300px; font-size: 11px;}
 .gmap_infoblock_title{font-weight: bold; color: #666;}
@@ -78,7 +78,3 @@
 .gmap_infoblock_link{margin-left: 10px;}
 .search_message{display: none; background: #d0e1e1; border-radius: 7px; border: 2px solid #8ca9a9; bottom: 14px; color: #2a4949; padding: 5px 15px; position: absolute; z-index: 98; font-size: 0.8em; left: 11px;}
 .search_message:before{border: solid; border-color: #8ca9a9 transparent; border-width: 6px 6px 0 6px; bottom: -8px; content: ''; left: 47%; position: absolute; z-index: 99;}
-
-
-
-
