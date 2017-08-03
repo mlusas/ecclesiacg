@@ -1,0 +1,737 @@
+<html>
+<head>
+    <title>Eccesia test v2</title>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js?ver=4.6.6"></script>
+</head>
+
+<body>
+
+
+
+<!---------------------------  BLOCK TO INSERT INTO CMS  --------------------------->
+
+<style>
+    .greenColor{color:#1d7b7b;}
+    .grayColor{color:#434343;}
+    .smallSize{font-size:0.95em;}
+    .xsmallSize{font-size:0.8em;}
+
+    .container-2{
+        vertical-align: middle;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .container-2 input.search{width:100%; height: 34px; background: #d0e1e1; border: none; font-size: 0.8em; float: left; padding: 0 1em; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; color: #2a4949; -webkit-transition: width .55s ease; -moz-transition: width .55s ease; -ms-transition: width .55s ease; -o-transition: width .55s ease; transition: width .55s ease;}
+
+    .container-2 input.search::-webkit-input-placeholder { color: #2a4949; }
+    .container-2 input.search:-moz-placeholder { color: #2a4949; } /* Firefox 18- */
+    .container-2 input.search::-moz-placeholder { color: #2a4949; } /* Firefox 19+ */
+    .container-2 input.search:-ms-input-placeholder { color: #2a4949; }
+
+    .select-style {
+        font-size:1em;
+        box-sizing: border-box;
+        height:34px;
+        vertical-align: middle;
+        padding: 5px 0;
+        width: 100%;
+        border-radius: 7px;
+        overflow: hidden;
+        background: #d0e1e1 url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpjYTBjYjZhNC05ZWUxLTRjY2MtOTI2Ni1lNWRlYWYwZDJjYmMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTFBMUFFNTc0MDkwMTFFNThFMTlEOTVDMzg3QTFCM0YiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTFBMUFFNTY0MDkwMTFFNThFMTlEOTVDMzg3QTFCM0YiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpjYTBjYjZhNC05ZWUxLTRjY2MtOTI2Ni1lNWRlYWYwZDJjYmMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Y2EwY2I2YTQtOWVlMS00Y2NjLTkyNjYtZTVkZWFmMGQyY2JjIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+uj7qhwAAAMNJREFUeNpi/P//P8NgBkwMgxyMOnDUgaMOHHXgqANHHTjqwIEFLKQo1vbyooqlV7dto2kITgPi/2TgafSK4lwg3keiHpD6PHo58C8QBwHxHSLVg9QFA/EfemaSj0DsCaUJqQMl3A8DkYvvQEPyL56QBoXc7YEsZvZB0yQ2AEpzewdDOTgditHFplGjSKJWQY2cs8nOsbR0ICxn76Akx1JckxCZs0dWXcw4OrIw6sBRB446cNSBow4cdeCoA4e0AwECDAAz8jJdfWe6pgAAAABJRU5ErkJggg==") no-repeat 100% 50%;
+        cursor: pointer;
+    }
+
+    .select-style select {
+        cursor: pointer;
+        font-size:0.8em;
+        color:#2a4949;
+        padding: 5px 8px;
+        width: 130%;
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+        background-image: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .select-style select:focus {
+        outline: none;
+    }
+
+    #mapContainer{width:100%; /* height:300px; */ background-color:#000000; color:#fff;}
+    #browseBar{width:100%; background-color:#8ca9a9; height: 50px; box-sizing: border-box; padding:8px;}
+
+    .groupRow{width:100%; background-color: #f1f8f8;}
+    .groupRow:nth-child(even){background-color: #fff;}
+    .imageColumn{display:inline-block; width: 17%; margin: 10px 1% 10px 2%; vertical-align: top;}
+    .infoColumn{display:inline-block; width: 77%; margin: 10px 2% 10px 1%; vertical-align:top;}
+    .infoTitle_grouptype{text-transform: uppercase; color:#8ca9a9; font-size: 0.75em;}
+    .infoTitle{display:inline-block; font-weight:800; font-size: 1em; width:67%;}
+    .group_signup_link{display: none; color: #D0E1E1; background-color: #2A4949; padding: 1em 1.5em; border-radius: .5em; text-transform: uppercase; font-size:0.7em; font-weight:600;}
+    .infoTime{margin:0.5em 0 0;}
+    .groupRowCityName{font-size:0.95rem;}
+    .infoDistance_miles{margin: 0 0.5rem 0 0;}
+    .infoDistance{margin:0.5em 0;}
+    .infoSummer{margin:0.5em 0; display:none;}
+    .infoDescription{margin:0.5em 0; text-align:justify;}
+
+    .pet{height:1.75rem; width: 1.75rem; background-repeat: no-repeat; margin: 0 0.5rem; vertical-align:middle;}
+    .cat{background: url("http://churchinhollywood.com/wp-content/uploads/2016/12/ecclesia-petIcon_cat.png"); background-size: 100%;}
+    .dog{background: url("http://churchinhollywood.com/wp-content/uploads/2016/12/ecclesia-petIcon_dog.png"); background-size: 100%;}
+    .pet.yes{display:inline-block;}
+    .pet.no{display:none;}
+
+    .tag{background-color: #8da9a9; color:#fff; font-size:0.8rem; font-weight: 600; border-radius: 1rem; padding: 0.1rem 0.75rem; box-sizing: border-box;}
+    .tag.yes{display:inline-block;}
+    .tag.no{display:none;}
+
+    .community_group_search_block{/*font-family: Verdana;*/ max-width:600px; margin: auto;}
+
+    .gmap_infoblock{/*font-family: Verdana;*/ color: #888; max-width: 300px; font-size: 11px; margin: 0.5em}
+    .gmap_infoblock_title{font-weight: bold; color: #666;}
+    .gmap_infoblock>ul{margin: .25em 1em 1em 1em; padding: 0; list-style: none;}
+    .gmap_infoblock>ul>li{margin:0rem;}
+    .gmap_infoblock>ul>li>span:first-child{font-weight: bold; color: #666;}
+    .gmap_infoblock_link{margin-left: 10px;}
+    .search_message{display: none; background: #d0e1e1; border-radius: 7px; border: 2px solid #8ca9a9; bottom: 14px; color: #2a4949; padding: 5px 15px; position: absolute; z-index: 98; font-size: 0.8em; left: 11px;}
+    .search_message:before{border: solid; border-color: #8ca9a9 transparent; border-width: 6px 6px 0 6px; bottom: -8px; content: ''; left: 47%; position: absolute; z-index: 99;}
+</style>
+
+
+
+<script>
+    (function ($) {
+        var API_KEY = 'AIzaSyBOJpoDfc07UlLA0uTl5a8c9Wd87WlfyAg';
+        var SPREADSHEET_KEY = '1y55JoAIz9YMXwmX2AyGLUzYT_2ckNzht2Adp97MXNUg';
+        var SHEET_NAME = 'Form Responses 1';
+        var MAP_POINTS_ENABLED = true;
+        var GROUP_FIELD_NAME = '';
+
+
+        var PERSON_PIN_MARKER_URL = 'http://www.churchinhollywood.com/images/ecclesia_mapPin-person.png';
+        var GROUP_PIN_MARKER_URL = 'http://churchinhollywood.com/wp-content/uploads/2016/12/ecclesia_mapPin.png';
+
+
+        // get info about sheet data range
+        function getDocumentData() {
+            var dfd = $.Deferred();
+            gapi.client.sheets.spreadsheets.get({
+                spreadsheetId: SPREADSHEET_KEY
+            }).then(function(response) {
+                var sheetRowsCount = 100;
+                $.each(response.result.sheets, function(i, v) {
+                    if (v.properties.title === SHEET_NAME) {
+                        sheetRowsCount = v.properties.gridProperties.rowCount
+                    }
+                });
+                dfd.resolve(sheetRowsCount);
+            });
+            return dfd.promise();
+        }
+
+        // get sheet data
+        function getSheetData(sheetRows) {
+            var dfd = $.Deferred();
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_KEY,
+                range: SHEET_NAME + '!A1:Z' + sheetRows
+            }).then(function(response) {
+                dfd.resolve(response.result.values);
+            }, function(response) {
+                console.error('Error: ' + response.result.error.message);
+            });
+            return dfd.promise();
+        }
+
+        //
+        function getAndParseData() {
+            var dfd = $.Deferred();
+            // Initializes the client with the API key and the Translate API.
+            gapi.client.init({
+                apiKey: API_KEY,
+                discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4']
+            }).then(function() {
+                getDocumentData()
+                    .then(getSheetData)
+                    .then(function(data) {
+                        parseGroupsSheetData(data);
+                        dfd.resolve(data);
+                    });
+            }, function(reason) {
+                console.log('Error: ' + reason.result.error.message);
+            });
+            return dfd.promise();
+        }
+
+        // Loads the Google Maps JavaScript client library and invokes `mapsApiLoaded` afterwards.
+        function handleGapiClientLoad() {
+            // get google maps api
+            $.getScript("//maps.googleapis.com/maps/api/js?key=AIzaSyBOJpoDfc07UlLA0uTl5a8c9Wd87WlfyAg&libraries=places&callback=googleAPICallbacks.mapsApiLoaded");
+        }
+
+        function mapsApiLoaded() {
+            gapi.load('client', gmap_init);
+        }
+
+        window.googleAPICallbacks = {
+            handleGapiClientLoad: handleGapiClientLoad,
+            mapsApiLoaded: mapsApiLoaded
+        };
+
+
+
+
+        var gmap; // google map instance
+        var geocoder; // google geocoder instance
+
+
+        var GEOCODING_AREA_CENTER = [  // Los Angeles, CA 90028, USA
+            34.1012181, -118.325739
+        ];
+        var GEOCODING_AREA_RADIUS = 50;  // (in miles) defines area within this radius from GEOCODING_AREA_CENTER
+
+
+        var addressLastSearch; // remembers last user's address searched
+        var curAddressMarker; // found user's location marker
+
+        var groupSignupTpl;
+        var groupTypes = {};
+        var groupSheetColumnsAssign = [
+            {
+                "name": "Timestamp",
+                "type": "text",
+                "sel": ".timestamp"
+            },
+            {
+                "name": "First Name",
+                "type": "text",
+                "sel": ".profile_firstname"
+            },
+            {
+                "name": "Last Name",
+                "type": "text",
+                "sel": ".profile_lastname"
+            },
+            {
+                "name": "Email ",
+                "type": "text",
+                "sel": ".profile_email"
+            },
+            {
+                "name": "Phone Number",
+                "type": "text",
+                "sel": ".profile_phone"
+            },
+            {
+                "name": "Other Leaders?",
+                "type": "text",
+                "sel": ".leaders"
+            },
+            {
+                "name": "Collaboration Name",
+                "type": "text",
+                "sel": ".collaboration"
+            },
+            {
+                "name": "Invitation & Description",
+                "type": "text",
+                "sel": ".invitation"
+            },
+            {
+                "name": "Preparation & Planning Meetings?",
+                "type": "text",
+                "sel": ".preparations"
+            },
+            {
+                "name": "Frequency",
+                "type": "text",
+                "sel": ".frequency"
+            },
+            {
+                "name": "Day",
+                "type": "text",
+                "sel": ".infoTime_day"
+            },
+            {
+                "name": "Time",
+                "type": "text",
+                "sel": ".infoTime_tim"
+            },
+            {
+                "name": "Street Address",
+                "type": "text",
+                "sel": ".groupRowStreetAddress"
+            },
+            {
+                "name": "City / Neighborhood",
+                "type": "text",
+                "sel": ".groupRowCityName"
+            },
+            {
+                "name": "Zip ",
+                "type": "text",
+                "sel": ".groupRowZip"
+            }
+        ];
+
+
+
+        var insertGroupDiv = function (data, rowDiv, parentEl, colNames) {
+            var gmapInfoContent = $('.gmap_infoblock_wrap').clone();
+            $.each(data, function (colIndex, colValue) {
+                if (groupSheetColumnsAssign[colIndex]) {
+                    var colParams = groupSheetColumnsAssign[colIndex];
+                    switch (colParams['type']) {
+                        case 'text':
+                            $(rowDiv).find(colParams.sel).text(colValue);
+                            gmapInfoContent.find(colParams.sel).text(colValue);
+                            break;
+                        case 'attr':
+                            rowDiv.find(colParams.sel).attr(colParams.modName, colValue);
+                            if (colParams.modName === 'src' && !colValue) { // remove image if src empty
+                                rowDiv.find(colParams.sel).remove();
+                            }
+                            break;
+                        case 'class':
+                            if (colParams.classes[colValue]) {
+                                rowDiv.find(colParams.sel).addClass(colParams.classes[colValue]);
+                            }
+                            break;
+                    }
+                    rowDiv.data(colParams.name, colValue);
+                }
+
+                var colName = colNames[colIndex].toLowerCase().trim();
+                if (colName === 'latitude') {
+                    rowDiv.data('lat', parseFloat(colValue));
+                }
+                if (colName === 'longitude') {
+                    rowDiv.data('lng', parseFloat(colValue));
+                }
+            });
+
+            if (MAP_POINTS_ENABLED && (!rowDiv.data('lat') || !rowDiv.data('lng'))) {
+                return;
+            }
+            if (GROUP_FIELD_NAME && !rowDiv.data(GROUP_FIELD_NAME)) {
+                return;
+            }
+
+            var gt = rowDiv.data(GROUP_FIELD_NAME);
+            groupTypes[gt] = gt;
+
+            if (groupSignupTpl) {
+                var href = groupSignupTpl.template.replace(groupSignupTpl.pattern, rowDiv.find('.infoTitle_grouptitle').text());
+                rowDiv.find('.group_signup_link')
+                    .attr('href', href)
+                    .show();
+                gmapInfoContent.find('.group_signup_link')
+                    .attr('href', href)
+                    .show();
+            }
+            if (MAP_POINTS_ENABLED) {
+                attachMarker(rowDiv, gmapInfoContent.html());
+            }
+            rowDiv.appendTo(parentEl).show();
+
+        };
+
+        /**
+         * parse received sheet data of available groups and build list of html blocks
+         * @param d
+         */
+        var parseGroupsSheetData = function (d) {
+            if (d && d.length) {
+                var gr = $('.groupRow:eq(0)');
+                var groupParent = $('.groupRows');
+                var colNames = d.shift();
+                $.each(d, function (i, rowData) {
+                    insertGroupDiv(rowData, gr.clone(), groupParent, colNames);
+                });
+                $.each(groupTypes, function (v, groupName) {
+                    $('<option/>', {
+                        value: groupName,
+                        text: groupName
+                    }).appendTo('.grouptypes');
+                });
+                gr.remove();
+            }
+            filterList('');
+        };
+
+        /**
+         * parse received sheet data of sign up form links and fill hrefs of links
+         * @param d
+         */
+        var parseLinksSheetData = function (d) {
+            if (d && d.feed && d.feed.entry && d.feed.entry.length) {
+                $.each(d.feed.entry, function (i, rowData) {
+                    if( rowData['gsx$formtype']['$t'] === 'Member Signup' ){
+                        groupSignupTpl = {
+                            template: rowData['gsx$url']['$t'],
+                            pattern: new RegExp("\<GroupTitleFromQuery\>")
+                        };
+                    }
+                });
+            }
+        };
+
+        /**
+         * filtering groups list
+         * @param groupType - group type
+         * @param address - string of address
+         */
+        var filterList = function (address) {
+            try {
+                var groupType = $('.grouptypes').val();
+                    if (groupType) {
+                        $('.groupRow').each(function (i, v) {
+                            if ($(v).data(GROUP_FIELD_NAME) === groupType) {
+                                $(v).show();
+                                showMarker(v);
+                            } else {
+                                $(v).hide();
+                                hideMarker(v);
+                            }
+                        });
+                    } else {
+                        $('.groupRow').each(function (i, v) {
+                            $(v).show();
+                            showMarker(v);
+                        });
+                    }
+
+
+                if (address) {
+                    if (addressLastSearch == address) {
+                        return;
+                    }
+                    if (curAddressMarker) {
+                        curAddressMarker.setMap(null);
+                    }
+                    addressLastSearch = address;
+                    getLocation(address, function (res) { try {
+                        if (res && res.length) {
+                            var location = res[0].geometry.location;
+                            // check if location found is in permitted geocodin area
+                            if (calcDistance(location.lat(), location.lng(), GEOCODING_AREA_CENTER[0], GEOCODING_AREA_CENTER[1]) > GEOCODING_AREA_RADIUS) {
+                                $('.search_message').fadeIn(200, function () {
+                                    setTimeout(function () {
+                                        $('.search_message').fadeOut(200)
+                                    }, 1500);
+                                });
+                                return;
+                            }
+
+                            var forthDist = 0;
+
+                            // calculating distances and updating group rows
+                            $('.groupRow').each(function (i, v) {
+                                var dist = calcDistance($(v).data('lat'), $(v).data('lng'), location.lat(), location.lng());
+                                $(v).data('distance', dist);
+                                $(v).find('.infoDistance_amount').text(Math.round(dist) || "<1");
+                                $(v).find('.infoDistance_miles').show();
+                            });
+
+                            // sorting groups rows by distance ascending
+                            var parent = $('.groupRows').parent();
+                            $(parent).find('.groupRow').sort(function (a, b) {
+                                return $(a).data('distance') > $(b).data('distance') ? 1 : -1;
+                            }).appendTo(parent);
+
+                            // calculating distance to 4th group location
+                            $('.groupRow').each(function (i, v) {
+                                if (i < 4) {
+                                    forthDist = $(v).data('distance');
+                                }
+                            });
+
+                            // setting center and zoom of map
+                            gmap.setCenter(location);
+                            if (forthDist > 0) {
+                                var zoom = Math.round(13 - Math.log(forthDist) / Math.LN2);
+                                gmap.setZoom(zoom);
+                            }
+
+                            var personPin = {
+                                url: PERSON_PIN_MARKER_URL,
+                                size: new google.maps.Size(24, 24),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(12, 12)
+                            };
+
+                            // creating marker on found address location
+                            curAddressMarker = new google.maps.Marker({
+                                position: {lat: location.lat(), lng: location.lng()},
+                                icon:  personPin,
+                                map: gmap,
+                                title: address
+                            });
+                        }
+                    } catch(er){}});
+                }
+            } catch(er){}
+        };
+
+
+        /**
+         * attach marker to group div
+         * @param rowdiv
+         */
+        var attachMarker = function(rowDiv, content){
+            var groupPin = {
+                url: GROUP_PIN_MARKER_URL,
+                size: new google.maps.Size(28, 50),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(19, 50)
+            };
+            var infowindow = new google.maps.InfoWindow({
+                content: content
+            });
+            var marker = new google.maps.Marker({
+                position: {lat: $(rowDiv).data('lat'), lng: $(rowDiv).data('lng')},
+                icon:  groupPin,
+                title: $(rowDiv).data('grouptitle') || '123'
+            });
+
+            marker.addListener('click', function () {
+                $('.groupRow').each(function (i, v) {
+                    var iw = $(v).data('infowindow');
+                    iw.close();
+                });
+                infowindow.open(gmap, marker);
+            });
+
+            rowDiv.data('marker', marker);
+            rowDiv.data('infowindow', infowindow);
+            return marker;
+        };
+
+
+        var showMarker = function(rowDiv){
+            var marker = $(rowDiv).data('marker');
+            marker.setMap(gmap);
+        };
+
+        var hideMarker = function(rowDiv){
+            var marker = $(rowDiv).data('marker');
+            marker.setMap(null);
+        };
+
+        /**
+         * request coordinates from google geocoder for specified address
+         * @param address
+         * @param clb
+         */
+        var getLocation = function(address, clb){
+            geocoder.geocode( { 'address': address, componentRestrictions: { country: 'US'}}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    clb(results)
+                }
+            });
+        };
+
+        /**
+         * haversine formula for calculating distance for two points on map
+         * @returns {number} - distance in miles
+         */
+        var calcDistance = function(){
+            var radians = Array.prototype.map.call(arguments, function(deg) { return deg/180.0 * Math.PI; });
+            var lat1 = radians[0], lon1 = radians[1], lat2 = radians[2], lon2 = radians[3];
+            //var R = 6372.8; // km
+            var R = 3959.87; // miles
+            var dLat = lat2 - lat1;
+            var dLon = lon2 - lon1;
+            var a = Math.sin(dLat / 2) * Math.sin(dLat /2) + Math.sin(dLon / 2) * Math.sin(dLon /2) * Math.cos(lat1) * Math.cos(lat2);
+            var c = 2 * Math.asin(Math.sqrt(a));
+            return R * c;
+        };
+
+        //CHANGE VALUES TO CENTER MAP
+        window.gmap_init = function(){
+            try{
+                gmap = new google.maps.Map(document.getElementById('mapContainer'), {
+                    center: {lat: 34.177993, lng: -118.323398},
+                    zoom: 10
+                });
+
+                geocoder = new google.maps.Geocoder();
+
+                $(document).ready(function(){
+                    // run
+                    getAndParseData();
+
+                    // group types select box event
+                    $('.grouptypes').change(function () {
+                        filterList();
+                    });
+
+                    $('.community_group_search_block')
+                        .on('click', '.groupRow', function () { // group block click event
+                            if (MAP_POINTS_ENABLED) {
+                                new google.maps.event.trigger($(this).data('marker'), 'click');
+                            }
+                        })
+                        .on('keypress', '.search', function (ev) {  // search input box 'Enter' pressing event
+                            if (ev.which === 13) {
+                                filterList($(this).val());
+                            }
+                        })
+                        .on('blur', '.search', function () {  // search input box loosing focus event
+                            filterList($(this).val());
+                            if (typeof ga !== 'undefined') {
+                                ga('send', 'pageview', 'communityGroupSignup?zipcode='+($(this).val()));
+                            }
+                        });
+                });
+
+            } catch( er ){}
+
+            // TODO: remove before deploy
+            if( window.location.href.match('\.*showArea=1') ){
+                // Create marker
+                var marker = new google.maps.Marker({
+                    map: gmap,
+                    position: new google.maps.LatLng(34.1012181, -118.325739)
+                });
+
+                var circle = new google.maps.Circle({
+                    map: gmap,
+                    radius: 80465,    // 50 miles
+                    fillColor: '#bbb',
+                    strokeColor: '#999',
+                    strokeWeight: 1
+                });
+                circle.bindTo('center', marker, 'position');
+            };
+
+        };
+
+
+    })(jQuery);
+</script>
+
+<div class="community_group_search_block" id="communityGroupBlock">
+    <div id="mapContainer"></div>
+    <script>
+        var mapHeight = document.getElementById("communityGroupBlock").offsetWidth / 2;
+        document.getElementById("mapContainer").style.height = mapHeight+"px";
+    </script>
+
+    <div id="browseBar">
+        <div style="display:inline-block; width:37%; min-width:9rem;">
+            <div class="box">
+                <div class="container-2">
+                    <input type="search" class="search" placeholder="Enter Zip Code" />
+                    <div class="search_message">Address not found</div>
+                </div>
+            </div>
+        </div>
+        <div style="display:inline-block; width:30%; min-width:9rem; float:right;">
+            <div class="select-style">
+                <select class="grouptypes">
+                    <option value="">All Group Types</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="groupRows" style="width:100%;">
+
+        <div class="groupRow" style="display: none;">
+            <div class="imageColumn">
+                <img class="profile_image" src="" style="width:100%;">
+                <div class="xsmallSize greenColor">
+                    <span class="profile_firstname"></span>
+                    <span class="profile_lastname"></span>
+                </div>
+            </div><div class="infoColumn">
+            <div class="infoTitle">
+                <div class="infoTitle_grouptype"></div>
+                <div class="infoTitle_grouptitle"></div>
+            </div><div style="display: inline-block; float: right; width:33%; padding: 0.25em 0 0 0.5em; text-align:right;">
+            <a class="group_signup_link" href="#" target="_blank">Sign up</a>
+        </div>
+            <div class="infoTime smallSize">
+                <span class="grayColor">Meeting </span>
+                <span class="greenColor infoTime_frequency"></span>
+                <span class="grayColor"> on </span>
+                <span class="greenColor infoTime_day"></span>
+                <span class="grayColor"> at </span>
+                <span class="greenColor infoTime_time"></span>
+            </div>
+            <div class="groupRowCityRow">
+                <span class="grayColor groupRowCityName"></span>
+            </div>
+            <div class="infoSummer smallSize grayColor">
+                Active in Summer: <span class="infoSummer_bool greenColor">No</span>
+            </div>
+            <div class="infoDescription smallSize"></div>
+            <div class="infoDistance smallSize">
+                <div style="display: inline-block">
+                    <div class="infoDistance_miles" style="display: none;">
+                        <span class="greenColor infoDistance_amount"></span>
+                        <span class="grayColor"> Miles Away</span>
+                    </div>
+                </div>
+                <div class="tag childCare">Child Care</div>
+                <div class="tag familyActivities">Family Activities</div>
+                <div class="pet cat"></div>
+                <div class="pet dog"></div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+
+    <div class="gmap_infoblock_wrap" style="display: none;">
+        <div class="gmap_infoblock">
+            <div class="gmap_infoblock_title ">
+                <div class="infoTitle_grouptype"></div>
+                <div class="infoTitle_grouptitle"></div>
+            </div>
+            <ul>
+                <li><span>Frequency: </span><span class="infoTime_frequency"></span></li>
+                <li><span>Day: </span><span class="infoTime_day"></span></li>
+                <li><span>Time: </span><span class="infoTime_time"></span></li>
+            </ul>
+            <div style="width:100%; text-align:center">
+                <a class="gmap_infoblock_link group_signup_link" href="#" target="_blank">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-67377000-1', 'auto');
+ga('send', 'pageview', 'communityGroupSignup');
+
+</script>-->
+
+
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};googleAPICallbacks.handleGapiClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+
+
+<!---------------------------  END OF BLOCK TO INSERT INTO CMS  --------------------------->
+
+
+
+
+</body>
+
+</html>
